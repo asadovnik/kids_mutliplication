@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Math Practice</title>
+  <style type="text/css">
+  h1 {
+    text-align: center;
+    font-family: Sans-Serif;
+    font-weight: bold;
+    font-size: 36px;
+    margin: 20px 0 0 0;
+    padding: 0;
+  }
+  #whole {
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+  }
+  table.problem {
+    font-family: Sans-Serif;
+    font-size: 30px;
+    text-align: right;
+    margin: 15px 10px 15px 10px;
+  }
+  button {
+    width: 100px;
+    height: 30px;
+    border: 3px soldi white;
+    border-radius: 50px;
+    background: #202020;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+    button2 {
+    width: 100px;
+    height: 30px;
+    border: 3px soldi white;
+    border-radius: 50px;
+    background: #202020;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    }
+
+    #stopwatch {
+        font-size: 70px;
+        padding-left: 50px;
+    }
+    #buttons {
+    }
+    #buttons li {
+        display: inline;
+        padding-left: 0px;
+}
+  </style>
+  <script>
+  
+   //const timer = document.getElementById('stopwatch');
+    var timer;
+    var hr = 0;
+    var min = 0;
+    var sec = 0;
+    var stoptime = true;
+
+    function startTimer() {
+      timer = document.getElementById('stopwatch');
+      if (stoptime == true) {
+            var table = document.getElementById("whole");
+            table.style.display="block"
+            stoptime = false;
+            timerCycle();
+        }
+    }
+    function stopTimer() {
+      if (stoptime == false) {
+        stoptime = true;
+      }
+    }
+
+    function timerCycle() {
+        if (stoptime == false) {
+            sec = parseInt(sec);
+            min = parseInt(min);
+            hr = parseInt(hr);
+
+            sec = sec + 1;
+
+            if (sec == 60) {
+              min = min + 1;
+              sec = 0;
+            }
+            if (min == 60) {
+              hr = hr + 1;
+              min = 0;
+              sec = 0;
+            }
+
+            if (sec < 10 || sec == 0) {
+              sec = '0' + sec;
+            }
+            if (min < 10 || min == 0) {
+              min = '0' + min;
+            }
+            if (hr < 10 || hr == 0) {
+              hr = '0' + hr;
+            }
+            timer.innerHTML = hr + ':' + min + ':' + sec;
+            setTimeout("timerCycle()", 1000);
+      }
+    }
+
+    function resetTimer() {
+        timer.innerHTML = '00:00:00';
+        stoptime = true;
+        hr=0;
+        min=0;
+        sec=0;
+    }
+
+
+  function single_problem() {
+    var operator = "x";
+    var a = Math.floor(Math.random()*12)+1;
+    var b = Math.floor(Math.random()*10)+1;
+    var c =a*b;
+    if (Math.random()>0.5) {
+      var top = a;
+      var bottom = b;
+    } else {
+      var top = b;
+      var bottom = a;
+    }
+    
+    return '<table class="problem"><tr><td>' + top + ' x ' + bottom + ' =  <input type="text" name="q" size="1" style="font-size: 30px;"/>' + '<input type="hidden" id="custId" name="a" value="' + c + '">' + '</td></tr></table>'; 
+    //return '<table class="problem">' +
+    //               '<tr><td></td><td>' + top + '</td></tr>' +
+    //               '<tr><td>' + operator + '</td><td>' + bottom + '</td></tr>' +
+    //               '</table>';
+  }
+  
+  function testButton (form){
+    stopTimer()
+    var correct=0;
+    for (Count = 0; Count < 50; Count++) {
+        if(form.a[Count].value==form.q[Count].value)
+        {
+            form.q[Count].style.backgroundColor = 'green';
+            correct=correct+1;
+        }
+        else
+            form.q[Count].style.backgroundColor = 'red';
+        
+    }
+    alert('You got ' + correct + '/50'); 
+}
+  </script>
+</head>
+<body>
+  <h1>Mix</h1>
+  <div id="stopwatch">
+            00:00:00
+        </div>
+
+        <ul id="buttons">
+            <li><button onclick="startTimer()">Start</button></li>
+            
+        </ul>
+  
+  <form autocomplete="off">
+  <ul id="buttons">
+  <INPUT TYPE="button" NAME="button" id="button2" Value="Submit Answers" 
+    onClick="testButton(this.form)"> <BR>
+    </ul>
+  <table id="whole">
+    <script>
+    for (i=0; i<10; i++){
+      document.write("<tr>");
+      for (j=0; j<5; j++) {
+        document.write('<td>' + single_problem() + '</td>');
+      }
+      document.write('</tr>');
+    }
+    </script>
+  </table>
+  </form>
+  
+</body>
+</html>
